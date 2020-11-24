@@ -1,9 +1,11 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"os"
 
-	"sentaly-telegram-bot/configloader"
+	"sentaly.com/telegram-bot/configloader"
+	"sentaly.com/telegram-bot/webserver"
 )
 
 // AppConfig data
@@ -19,7 +21,12 @@ type AppConfig struct {
 }
 
 func main() {
+	logger := log.New(os.Stderr, "", 0)
+
 	var config AppConfig
 	configloader.Load("config.yml", &config)
-	fmt.Printf("loaded config: %+v\n", config)
+	
+	logger.Println("loaded config: ", config)
+
+	webserver.Run(config.Server.Host, config.Server.Port)
 }
