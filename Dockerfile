@@ -10,6 +10,7 @@ RUN go mod download
 
 COPY . .
 
+# Run unit/integrations testing before build
 RUN go test ./...
 
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
