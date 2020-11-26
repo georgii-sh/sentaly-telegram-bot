@@ -58,3 +58,23 @@ func Test_TelegramShouldReturnErrorIfProcessRequestHaveError(t *testing.T) {
 
 	assert.Equal(t, http.StatusInternalServerError, w.Code)
 }
+
+func Test_TelegramShouldReturnOk(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	s := mocks.NewMockBotService(ctrl)
+
+	update := &ports.Update{}
+
+	s.EXPECT().ParseRequest(nil).Return(update, nil)
+	s.EXPECT().ProcessRequest(update).Return(nil)
+
+	router := setupTestRouter(s)
+	w := httptest.NewRecorder()
+	
+	req, _ := http.NewRequest("POST", "/telegram", nil)
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+}
