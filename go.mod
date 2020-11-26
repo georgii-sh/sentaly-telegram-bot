@@ -5,10 +5,9 @@ go 1.15
 require (
 	github.com/gin-gonic/gin v1.6.3
 	github.com/golang/mock v1.4.4
-	github.com/google/go-cmp v0.5.3 // indirect
+	github.com/google/go-cmp v0.5.4 // indirect
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/prometheus/common v0.15.0
-	gopkg.in/yaml.v2 v2.3.0
+	gopkg.in/yaml.v2 v2.4.0
 	gotest.tools v2.2.0+incompatible
 )
