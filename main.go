@@ -4,8 +4,10 @@ import (
 	"log"
 	"os"
 
+	"sentaly.com/telegram-bot/adapters/driven/messenger"
+	"sentaly.com/telegram-bot/adapters/driving/webserver"
+	"sentaly.com/telegram-bot/application"
 	"sentaly.com/telegram-bot/configloader"
-	"sentaly.com/telegram-bot/webserver"
 )
 
 // AppConfig data
@@ -18,6 +20,9 @@ type AppConfig struct {
 		Addr string `yaml:"address", envconfig:"REDIS_HOST"`
 		Pass string `yaml:"password", envconfig:"REDIS_PASSWORD"`
 	} `yaml:"redis"`
+	Telegram struct {
+		Token string `yaml:"token", envconfig:"TELEGRAM_TOKEN"`
+	} `yaml:"telegram"`
 }
 
 func main() {
@@ -28,5 +33,8 @@ func main() {
 	
 	logger.Println("loaded config: ", config)
 
-	webserver.Run(config.Server.Host, config.Server.Port)
+	messenger := messenger.NewTelegramMessenger(config.Telegram.Token)
+	service := application.NewDelegatingBotService(messenger)
+
+	webserver.Run(service, config.Server.Host, config.Server.Port)
 }

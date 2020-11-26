@@ -5,3 +5,6 @@ server:
 redis:
   address: "localhost:6379"
   password: ""
+
+telegram:
+  token: "test:token"
